@@ -1,3 +1,9 @@
+# Executable
+main_join
+main_protected_buffer
+main_readers_writers
+main_readers_writers_2
+
 # Object files
 *.o
 *.ko
