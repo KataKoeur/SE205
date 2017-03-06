@@ -21,7 +21,8 @@ void * protected_buffer_get(protected_buffer_t * b){
   pthread_mutex_lock(b->mutex);
   // Wait until there is a full slot to get data from the unprotected
   // circular buffer (circular_buffer_get).
-  d = circular_buffer_get(b->buffer);
+  while((d = circular_buffer_get(b->buffer)) == NULL)
+    pthread_cond_wait(b->cond, b->mutex);
   // Signal or broadcast that an empty slot is available in the
   // unprotected circular buffer.
   pthread_cond_broadcast(b->cond);
@@ -35,7 +36,8 @@ int protected_buffer_put(protected_buffer_t * b, void * d){
   pthread_mutex_lock(b->mutex);
   // Wait until there is an empty slot to put data in the unprotected
   // circular buffer (circular_buffer_put).
-  circular_buffer_put(b->buffer, d);
+  while(!circular_buffer_put(b->buffer, d))
+    pthread_cond_wait(b->cond, b->mutex);
   // Signal or broadcast that a full slot is available in the
   // unprotected circular buffer.
   pthread_cond_broadcast(b->cond);

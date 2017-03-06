@@ -17,7 +17,7 @@ void * main_consumer(void * arg){
   printf ("consume %d elements\n", (int) MAX/4);
   printf ("consumer should hang for 5s\n");
   for (i = 0; i < MAX/4; i++){
-    d = protected_buffer_get (protected_buffer);
+    d = protected_buffer_get(protected_buffer);
     printf ("consume [%d]\n", *d);
   }
   printf ("consumer waiting for 5s\n");
@@ -40,6 +40,8 @@ int main(int argc, char *argv[]){
   protected_buffer = protected_buffer_init(MAX);
 
   // Creer un thread consumer qui exécute main_consumer
+  pthread_t consumer;
+  pthread_create(&consumer, NULL, main_consumer, NULL);
 
   printf ("producer waiting for 5s\n");
   sleep (5);
@@ -53,6 +55,7 @@ int main(int argc, char *argv[]){
   }
 
   // Attendre la terminaison de consumer
+  pthread_join(consumer, NULL);
 
   return 0;
 }
