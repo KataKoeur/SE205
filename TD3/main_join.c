@@ -10,7 +10,7 @@
 int last_thread = -1;
 int first_thread = 0;
 pthread_t threads_table[MAXTHREADS];
-
+protected_buffer_t * protected_buffer;
 
 // Terminate thread
 void process_exit(int * seconds) {
@@ -22,6 +22,7 @@ pthread_t process_wait() {
   pthread_t thread = NULL;
 
   if (first_thread <= last_thread) {
+    protected_buffer_get(protected_buffer);
     thread = threads_table[first_thread];
     first_thread++;
   }
@@ -34,6 +35,7 @@ void * thread_main(void * arg){
   int * seconds = (int *) arg;
 
   sleep(*seconds);
+  protected_buffer_put(protected_buffer, seconds);
   process_exit(seconds);
   return NULL;
 }
@@ -51,6 +53,7 @@ int main(int argc, char *argv[]){
   gettimeofday(&s, NULL);
   last_thread = atoi(argv[1]) - 1;
 
+  protected_buffer = protected_buffer_init(atoi(argv[1]));
 
   // Creer autant de threads que demandé en ligne de commande
   int n;
@@ -69,7 +72,7 @@ int main(int argc, char *argv[]){
   pthread_t thread;
   while ((void *)(thread = process_wait()) != NULL) {
     //code
-    pthread_join(thread, (void *)&seconds);
+    //pthread_join(thread, (void *)&seconds);
 
     gettimeofday(&t, NULL);
     printf("thread (%p) join after %d s (%d s)\n",
