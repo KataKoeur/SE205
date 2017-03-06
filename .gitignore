@@ -5,6 +5,7 @@ main_readers_writers
 main_readers_writers_2
 
 # Object files
+deps
 *.o
 *.ko
 *.obj
