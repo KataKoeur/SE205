@@ -29,16 +29,16 @@ On ne peut donc pas dire sans regarder le main s'il y a des dépendances ou non.
 
 # Compte rendu TD2
 
-##TD2.1
+## TD2.1
 
 What is pthread_join() actually doing here?
 pthread_join() permet d'attendre que le Thread soit terminer avant de continuer le programme.
 
-##TD2.2
+## TD2.2
 
 Le programme est race-free car on ne lit/écris jamais dans la même case mémoire depuis différents threads.
 Effectivement, la variable counter est atomic, cela signifi qu'elle peut etre lu depuis qu'un seul endroit à la fois.
 
-##TD2.3
+## TD2.3
 
 Le programme se termine lorsque counter vaut 2. Cela signifi que lors de la compilation, certaines instructions on été permuté pour des raisons d'optimisation. Malheureusement cela créée un comportement inatendu lorsque le thread n'est pas éxécuter d'un seul coup. Cela est rare mais possible.
