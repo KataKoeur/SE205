@@ -26,6 +26,19 @@ public class Edge extends UntypedActor {
 
   // TODO: implement a props function to create actors representing graph edges.
 
+  public Props props(ActorRef src, int weight, ActorRef dest) {
+    return Props.create(new Creator<src>() {
+
+      @Override
+      public MyActor create() throws Exception {
+        return new MyActor();
+      }
+    });
+  }
 
   // TODO: implement a method to process in-coming messages.
+
+  public void msg() {
+
+  }
 }
