@@ -5,6 +5,10 @@ main_readers_writers
 main_readers_writers_2
 Serv_TCP
 
+# Java files
+*.class
+*.jar
+
 # Object files
 deps
 *.o
