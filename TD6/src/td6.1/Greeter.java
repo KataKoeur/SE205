@@ -21,6 +21,8 @@ public class Greeter extends UntypedActor {
     if (msg == Msg.GREET) {
       // handle all GREET messages ...
       System.out.println("Hello World!");
+      System.out.println("Name:   " + getSelf().path().name());
+      System.out.println("Sender: " + getSender());
 
       // then send a reply message.
       getSender().tell(Msg.DONE, getSelf());
